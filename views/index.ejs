@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Vivid Image Art</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="keywords" content="art, digital art, digital image, abstract, abstract art, computer art, digital, illustration, digital design, design, digital, high tech art, high tech designs, web art, Carlson, Randy Carlson, Justin Carlson, Mary Carlson" />
+        <meta name="description" content="Vivid Image Art creates highly detailed, one of a kind abstract digital art paintings." />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Vivid Image Art Home Page" />
+
+        <link rel="stylesheet" type="text/css" href="css/vividimageart.css" />
+
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="iLightBox/css/ilightbox.css" />
+        <link rel="stylesheet" type="text/css" href="bower_components/toastr/toastr.min.css" />
+
+        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+
+        <script type="text/javascript" src="iLightBox/js/ilightbox.min.js"></script>
+        <script type="text/javascript" src="iLightBox/js/ilightbox.packed.js"></script>
+        <script type="text/javascript" src="iLightBox/js/jquery.mousewheel.js"></script>
+        <script type="text/javascript" src="iLightBox/js/jquery.requestAnimationFrame.js"></script>
+
+        <!-- AngularJS -->
+        <script type="text/javascript" src="js/vividimageart-scripts.js"></script>
+        <script type="text/javascript" src="js/vividimageart-angularApp.js"></script>
+        <script type="text/javascript" src="js/vividimageart-controllers.js"></script>
+        <script type="text/javascript" src="js/vividimageart-directives.js"></script>
+        <script type="text/javascript" src="js/vividimageart-filters.js"></script>
+        <script type="text/javascript" src="js/vividimageart-factories.js"></script>
+        <script type="text/javascript" src="js/vividimageart-injectors.js"></script>
+
+        <script type="text/javascript" src="bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
+        <script type="text/javascript" src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+
+        <script type="text/javascript" src="bower_components/toastr/toastr.min.js"></script>
+
+        <!-- Google Font -->
+        <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            // initialize the ga_account_id variable (we set this on the server side with the EJS templating)
+            var ga_account_id = "<%= config_ga_account_id %>";
+            ga('create', ga_account_id, 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $(window).bind('resizeCompleted', function () {
+                    onWindowResizeCompleted();
+                });
+
+                $(window).resize(function () {
+                    if (this.resizeTimer) {
+                        clearTimeout(this.resizeTimer);
+                    }
+
+                    this.resizeTimer = setTimeout(function () {
+                        $(this).trigger('resizeCompleted');
+                    }, 100);
+                });
+
+                $('.navbar-nav a:not(.dropdown-toggle)').on('click', function () {
+                    if (IsMobileViewPort()) {
+                        $(".navbar-toggle").click();
+                    }
+                });
+            });
+        </script>
+    </head>
+
+    <body ng-app="vividImageArt">
+
+        <div id="mainTitleLogo" class="fullWidthHeightRelative">
+            <img id="logoImageHolder" src="img/websiteHeader.jpg" height="152" width="933" />
+        </div>
+
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" ng-controller="NavigationController">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="siteSectionTitle" class="navbar-brand">Vivid Image Art</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li id="homeSectionLink" class="sectionLink"><a ui-sref="home">HOME</a></li>
+                        <li id="gallerySectionLink" class="sectionLink"><a ui-sref="gallery">GALLERY</a></li>
+                        <li id="artistBioSectionLink" class="sectionLink"><a ui-sref="artistbio">ARTIST BIO</a></li>
+                        <li id="contactUsSectionLink" class="sectionLink"><a ui-sref="contactus">CONTACT US / ORDERS</a></li>
+                        <!--<li id="eventsSectionLink" class="sectionLink"><a ui-sref="events">EVENTS</a></li>-->
+                        <li id="aboutUsSectionLink" class="sectionLink" ><a ui-sref="about" >ABOUT US</a></li>
+                        <li id="adminSectionLink" class="sectionLink" ng-show="isLoggedIn()"><a ui-sref="admin">ADMIN</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a id="logoutAnchor" href="" title="Log Out" ng-show="isLoggedIn()" ng-click="logOut()">Log Out</a></li>
+                        <li><a id="loginAnchor" ui-sref="login" title="Log In" ng-show="!isLoggedIn()">Log In</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="faded" loading-spinner>
+            <div class="fadedOverlay">
+                <img class="loadingGif" src="img/loadingGears.gif" />
+                <p class="loadingTextParagraph">{{$root.loadingText}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="contentBox" class="col-lg-10 col-lg-offset-1 bootstrapContentDiv">
+                <br />
+                <ui-view></ui-view>
+                <br />
+            </div>
+        </div>
+
+    </body>
+
+    <footer>
+        <p><a class="customAnchor" href="http://www.carlsoncoder.com/" target="_blank">Copyright © 2015 - CarlsonCoder</a></p>
+    </footer>
+</html>

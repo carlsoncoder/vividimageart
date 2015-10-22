@@ -1,0 +1,55 @@
+<div data-ng-show="error" class="alert alert-danger row">
+    <span>{{ error }}</span>
+</div>
+
+<div ng-show="!isImageEdit">
+    <p ng-show="files && files.length">{{files[0].name}}</p>
+    <p ng-show="!files">No File Selected</p>
+    <button class="btn" ngf-select ng-model="files">Select File</button>
+</div>
+
+<div ng-show="isImageEdit">
+    <p>Editing Image ID: {{editingPictureId}}</p>
+    <img
+            id="{{imageDetails.thumbnailUrl}}"
+            class="scalableThumbnail"
+            src="{{imageDetails.thumbnailUrl}}"
+            style="display:inline;"
+            alt=""
+            data-thumb-width="{{imageDetails.thumbnailWidth}}"
+            data-thumb-height="{{imageDetails.thumbnailHeight}}" />
+</div>
+
+<div ng-show="isImageEdit">
+    <br />
+    <button class="btn" ng-click="deleteImage(imageDetails.name)">Delete Image</button>
+    <p></p>
+</div>
+
+<div class="form-group">
+    <span>Painting Name:</span>
+    <input type="text" class="form-control" placeholder="Painting Name" ng-model="imageDetails.paintingName" />
+</div>
+<div class="form-group">
+    <span>Media Type:</span>
+    <input type="text" class="form-control" placeholder="Media Type" ng-model="imageDetails.mediaType" />
+</div>
+<div class="form-group">
+    <span>Media Size:</span>
+    <input type="text" class="form-control" placeholder="Media Size" ng-model="imageDetails.mediaSize" />
+</div>
+<div class="form-group">
+    <span>Price:</span>
+    <input type="text" class="form-control" placeholder="Price" ng-model="imageDetails.price" />
+</div>
+<div ng-show="!isImageEdit" class="form-group">
+    <span>Divisor:</span>
+    <input type="text" class="form-control" placeholder="Divisor" ng-model="imageDetails.divisor" />
+</div>
+
+<br />
+<button ng-show="!isImageEdit" class="btn btn-lg btn-primary" ng-click="uploadPicture()">Upload Picture</button>
+<button ng-show="isImageEdit" class="btn btn-lg btn-primary" ng-click="savePictureEdits()">Update Picture</button>
+
+<div script-loader pagename="admin"></div>
+<toastr-watcher></toastr-watcher>

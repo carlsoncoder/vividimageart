@@ -1,0 +1,34 @@
+<h2>Gallery</h2>
+<p><em>(Click any image for a larger view)</em></p>
+
+<div id="gallery-wrapper" data-max-thumb-height="{{greatestThumbHeight}}">
+    <ul class="image-unordered-list">
+        <li class="image-list-item" ng-repeat="image in allImages | orderBy: '-lastModified'">
+            <div class="image-wrapper">
+                <a
+                        class="ilightbox"
+                        replace-anchor-title
+                        href="{{image.url}}"
+                        data-title="{{image.paintingName}}"
+                        data-caption="{{image.paintingName}}"
+                        data-full-width="{{image.width}}"
+                        data-full-height="{{image.height}}">
+                    <img
+                            id="{{image.thumbnailUrl}}"
+                            class="scalableThumbnail gallery-image"
+                            src="{{image.thumbnailUrl}}"
+                            alt=""
+                            data-thumb-width="{{image.thumbnailWidth}}"
+                            data-thumb-height="{{image.thumbnailHeight}}" />
+                </a>
+                <h4>{{image.paintingName}}</h4>
+                <h4>{{image.mediaType}}</h4>
+                <h4>{{image.mediaSize}}</h4>
+                <h4>{{image.price}}</h4>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div script-loader pagename="gallery"></div>
+<toastr-watcher></toastr-watcher>
