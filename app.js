@@ -11,21 +11,9 @@ var multer = require('multer');
 //initialize config options
 var configOptions = require('./config/config.js');
 
-//mongoose
-var mongoose = require('mongoose');
-require('./models/Users');
-require('./models/Exceptions');
-
-// Exception repository
-var exceptionRepository = require('./services/exceptionrepository');
-
 //passport
 var passport = require('passport');
 require('./config/passport');
-
-//connect to MongoDB
-var mongoConnectionString = configOptions.MONGO_DB_CONNECTION_STRING;
-mongoose.connect(mongoConnectionString);
 
 // Express setup
 var app = express();
@@ -65,7 +53,7 @@ app.use(function(req, res, next) {
 if (process.env.NODE_ENV === 'development')
 {
     app.use(function(err, req, res, next) {
-        logErrorToMongo(err);
+        logError(err);
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -76,7 +64,7 @@ if (process.env.NODE_ENV === 'development')
 
 // production error handler - no stack trace shown to user
 app.use(function(err, req, res, next) {
-    logErrorToMongo(err);
+    logError(err);
     res.status(err.status || 500);
     res.render('error', {
        message: err.message,
@@ -135,21 +123,15 @@ function onListening() {
     debug('Listening on ' + bind);
 }
 
-function logErrorToMongo(error) {
+function logError(error) {
     console.log(error.message + '--' + error + '--' + error.stack);
-    exceptionRepository.saveException(error, function(err, savedError) {
-        if (err) {
-            console.log('An error occurred while trying to save the error');
-            console.log(err.message + '--' + err + '--' + err.stack);
-        }
-    });
 }
 
 // Get port from environment and store in Express */
-var port = normalizePort(process.env.OPENSHIFT_NODEJS_PORT || '3000');
+var port = normalizePort('3000');
 app.set('port', port);
 
-var ipAddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var ipAddress = '127.0.0.1';
 app.set('ipAddress', ipAddress);
 
 var server = http.createServer(app);
@@ -160,7 +142,7 @@ server.on('listening', onListening);
 // Final catch of any errors in the process
 // Catch any uncaught errors that weren't wrapped in a try/catch statement
 process.on('uncaughtException', function(err) {
-    logErrorToMongo(err);
+    logError(err);
 });
 
 module.exports = app;

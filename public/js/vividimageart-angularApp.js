@@ -138,19 +138,6 @@ app.config([
                             $state.go('home');
                         }
                     }]
-                })
-            .state(
-                'changepassword',
-                {
-                    url: '/changepassword',
-                    templateUrl: 'templates/admin/changepassword.html',
-                    controller: 'NavigationController',
-                    onEnter: ['$state', 'auth', function($state, auth) {
-                        if (!auth.isLoggedIn())
-                        {
-                            $state.go('login');
-                        }
-                    }]
                 });
 
         $urlRouterProvider.otherwise('/');

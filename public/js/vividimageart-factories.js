@@ -180,20 +180,5 @@ vividImageArtFactories.factory('auth', ['$http', '$window', function($http, $win
         $window.localStorage.removeItem('vivid-image-art-token');
     };
 
-    authFactory.changePassword = function(oldPassword, newPassword, callback) {
-        $http.post('/changepassword', { oldPassword: oldPassword, newPassword: newPassword})
-            .success(function(data, status) {
-                if (status === 401) {
-                    callback(false, 'Invalid Login Details');
-                }
-                else {
-                    callback(true, '');
-                }
-            })
-            .error(function(data, status) {
-                callback(false, data.toString());
-            });
-    };
-
     return authFactory;
 }]);

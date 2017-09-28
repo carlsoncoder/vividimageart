@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
                 return done(null, null, { message: message });
             }
 
-            return done(null, user);
+            return done(null, user, null);
         });
     }
 ));

@@ -163,36 +163,5 @@ vividImageArtControllers.controller('NavigationController', [
             auth.logOut();
             $state.go('home');
         };
-
-        $scope.changePassword = function() {
-            if (IsNullOrUndefined($scope.oldPassword) || $scope.oldPassword === '') {
-                $scope.error = 'You must enter the old password';
-                return;
-            }
-
-            if (IsNullOrUndefined($scope.newPassword) || $scope.newPassword === '') {
-                $scope.error = 'You must enter a new password';
-                return;
-            }
-
-            if (IsNullOrUndefined($scope.newPasswordConfirm) || $scope.newPasswordConfirm === '') {
-                $scope.error = 'You must confirm your new password';
-                return;
-            }
-
-            if ($scope.newPassword !== $scope.newPasswordConfirm) {
-                $scope.error = 'Your new passwords do not match - please re-enter';
-                return;
-            }
-
-            auth.changePassword($scope.oldPassword, $scope.newPassword, function(status, message) {
-                if (!status) {
-                    $scope.error = message;
-                }
-                else {
-                    $scope.userMessage = { type: 'success', title: 'Login Information', message: 'Password successfully changed!', nextState: 'home'};
-                }
-            });
-        };
     }
 ]);
