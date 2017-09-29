@@ -1,46 +1,38 @@
-var lwip = require('lwip');
+var Jimp = require('jimp');
 var path = require('path');
 
 var imageResizer = {};
 
 imageResizer.resizeImage = function(sourceFile, outputDirectory, divisor, callback) {
-    lwip.open(sourceFile, function(err, image) {
+    Jimp.read(sourceFile, function(err, image) {
         if (err) {
             return callback(err);
         }
 
-        var originalWidth = image.width();
-        var originalHeight = image.height();
+        var originalWidth = image.bitmap.width;
+        var originalHeight = image.bitmap.height;
 
         var newWidth = originalWidth / divisor;
         var newHeight = originalHeight / divisor;
 
-        image.resize(newWidth, newHeight, function(err, resizedImage) {
-            if (err) {
-                return callback(err);
-            }
+        var extension = path.extname(sourceFile);
+        var sourceFileName = path.basename(sourceFile, extension);
 
-            var extension = path.extname(sourceFile);
-            var sourceFileName = path.basename(sourceFile, extension);
+        var targetOutputPath = outputDirectory + '/' + sourceFileName + '_thumbnail' + extension;
 
-            var targetOutputPath = outputDirectory + '/' + sourceFileName + '_thumbnail' + extension;
+        image.resize(newWidth, newHeight)
+            .quality(80)
+            .write(targetOutputPath);
 
-            resizedImage.writeFile(targetOutputPath, function(err) {
-                if (err) {
-                    return callback(err);
-                }
+        var resultValues = {
+            fileName: targetOutputPath,
+            originalHeight: originalHeight,
+            originalWidth: originalWidth,
+            newHeight: newHeight,
+            newWidth: newWidth
+        };
 
-                var resultValues = {
-                    fileName: targetOutputPath,
-                    originalHeight: originalHeight,
-                    originalWidth: originalWidth,
-                    newHeight: newHeight,
-                    newWidth: newWidth
-                };
-
-                return callback(null, resultValues);
-            })
-        });
+        return callback(null, resultValues);
     })
 };
 
