@@ -72,22 +72,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-function normalizePort(portValue) {
-    var port = parseInt(portValue, 10);
-
-    if (isNaN(port)) {
-        // named pipe
-        return portValue;
-    }
-
-    if (port >= 0) {
-        // port number
-        return port;
-    }
-
-    return false;
-}
-
 function onError(error) {
     if (error.syscall !== 'listen') {
         throw error;
@@ -128,7 +112,7 @@ function logError(error) {
 }
 
 // Get port from environment and store in Express */
-var port = normalizePort('3000');
+var port = process.env.PORT || 3000;
 app.set('port', port);
 
 var ipAddress = '127.0.0.1';
