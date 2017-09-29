@@ -112,7 +112,7 @@ function logError(error) {
 }
 
 // Get port from environment and store in Express */
-var port = process.env.PORT || 3000;
+var port = 8080;
 app.set('port', port);
 
 var ipAddress = '127.0.0.1';
