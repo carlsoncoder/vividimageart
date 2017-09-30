@@ -101,27 +101,15 @@ function onError(error) {
     }
 }
 
-function onListening() {
-    var address = server.address();
-    var bind = typeof addr === 'string' ? 'pipe ' + address : 'port ' + address.port;
-    debug('Listening on ' + bind);
-}
-
 function logError(error) {
     console.log(error.message + '--' + error + '--' + error.stack);
 }
 
-// Get port from environment and store in Express */
-var port = 8080;
-app.set('port', port);
+var server = http.createServer(app).listen(8080, function() {
+   console.log('HTTP server listening on port 8080');
+});
 
-var ipAddress = '127.0.0.1';
-app.set('ipAddress', ipAddress);
-
-var server = http.createServer(app);
-server.listen(port, ipAddress);
 server.on('error', onError);
-server.on('listening', onListening);
 
 // Final catch of any errors in the process
 // Catch any uncaught errors that weren't wrapped in a try/catch statement
