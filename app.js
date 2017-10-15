@@ -7,9 +7,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer = require('multer');
+var https = require('https');
 
 //initialize config options
 var configOptions = require('./config/config.js');
+
+var certificateConfiguration = {
+    key: fs.readFileSync(configOptions.CERT_KEY_PATH),
+    cert: fs.readFileSync(configOptions.CERT_PATH)
+};
 
 //passport
 var passport = require('passport');
@@ -105,11 +111,11 @@ function logError(error) {
     console.log(error.message + '--' + error + '--' + error.stack);
 }
 
-var server = http.createServer(app).listen(8080, function() {
-   console.log('HTTP server listening on port 8080');
+var secureServer = https.createServer(certificateConfiguration, app).listen(4443, function() {
+    console.log('HTTPS listening on port 4443');
 });
 
-server.on('error', onError);
+secureServer.on('error', onError);
 
 // Final catch of any errors in the process
 // Catch any uncaught errors that weren't wrapped in a try/catch statement
