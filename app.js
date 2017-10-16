@@ -1,5 +1,4 @@
 var debug = require('debug')('vividimageart:server');
-var http = require('http');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,7 +6,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer = require('multer');
+var url = require('url');
 var fs = require('fs');
+var http = require('http');
 var https = require('https');
 
 //initialize config options
@@ -113,10 +114,19 @@ function logError(error) {
 }
 
 var secureServer = https.createServer(certificateConfiguration, app).listen(4443, function() {
-    console.log('HTTPS listening on port 4443');
+    console.log('HTTPS server listening on port 4443');
 });
 
 secureServer.on('error', onError);
+
+// Setup secondary server to redirect HTTP requests to HTTPS instance
+var insecureApp = express();
+insecureApp.get('*', function(req, res) {
+    var parsedUrl = url.parse(configOptions.BASE_URL + req.originalUrl);
+    return res.redirect(parsedUrl.href);
+}).listen(8080, function() {
+    console.log('HTTP server listening on port 8080');
+});
 
 // Final catch of any errors in the process
 // Catch any uncaught errors that weren't wrapped in a try/catch statement
